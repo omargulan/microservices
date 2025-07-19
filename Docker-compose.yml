@@ -3,6 +3,10 @@ services:
     build: users/.
     ports:
       - "8081:8081"
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+    depends_on:
+      - users-db
 
   post-service:
     build: posts/.
@@ -10,3 +14,19 @@ services:
       - "8082:8082"
     environment:
       SPRING_PROFILES_ACTIVE: docker
+    depends_on:
+      - posts-db
+
+  users-db:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_DB: users
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+
+  posts-db:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_DB: posts
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
