@@ -19,7 +19,7 @@ import java.util.Map;
 @RequestMapping("/posts")
 public class PostController {
     private final RestTemplate restTemplate = new RestTemplate();
-    @Value("${users.server.url}")
+        @Value("${users.server.url}")
     private String usersServerUrl;
 //    private final Map<Long, Post> posts = new HashMap<>();
 //    private long nextId;

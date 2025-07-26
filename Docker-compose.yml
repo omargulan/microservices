@@ -1,10 +1,25 @@
 services:
+  gateway-service:
+    build: gateway/.
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      USERS_SERVICE_HOST: user-service
+      USERS_SERVICE_PORT: 8081
+      POSTS_SERVICE_HOST: post-service
+      POSTS_SERVICE_PORT: 8082
+
   user-service:
     build: users/.
     ports:
       - "8081:8081"
     environment:
       SPRING_PROFILES_ACTIVE: docker
+      DB_HOST: users-db
+      DB_NAME: users
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
     depends_on:
       - users-db
 
@@ -14,6 +29,12 @@ services:
       - "8082:8082"
     environment:
       SPRING_PROFILES_ACTIVE: docker
+      DB_HOST: posts-db
+      DB_NAME: posts
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      USERS_SERVICE_HOST: users-service
+      USERS_SERVICE_PORT: 8081
     depends_on:
       - posts-db
 
